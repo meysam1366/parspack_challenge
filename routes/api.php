@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-Route::/*middleware('auth:sanctum')->*/namespace('API')->group(function () {
+Route::namespace('API')->group(function () {
     Route::post('/signup','APIController@signUp');
     Route::get('/getListPs','APIController@getListPs');
     Route::middleware('auth:sanctum')->group(function() {
