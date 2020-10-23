@@ -20,9 +20,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::namespace('API')->group(function () {
     Route::post('/signup','APIController@signUp');
+    Route::post('/login','APIController@login');
     Route::get('/getListPs','APIController@getListPs');
     Route::middleware('auth:sanctum')->group(function() {
-        Route::post('/login','APIController@login');
         Route::post('/createDirectory', 'APIController@createDirectoryByNameUser');
         Route::post('/createFile', 'APIController@createFileByNameUser');
     });

@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\APIRequest;
 use Illuminate\Http\Request;
 use App\Contract\Interfaces\RegisterInterface;
+use App\Http\Requests\LoginRequest;
 use Symfony\Component\HttpFoundation\Response;
 
 class APIController extends Controller
@@ -34,9 +35,15 @@ class APIController extends Controller
         return response()->json($user, Response::HTTP_CREATED);
     }
 
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
-        $response = $this->login->login($request);
+        $validated = $request->validated();
+        $response = $this->login->login($validated);
+        if(!$response) {
+            return response()->json([
+                'message' => 'Email or Password Not Correct'
+            ], Response::HTTP_UNAUTHORIZED);
+        }
         return response()->json($response, Response::HTTP_OK);
     }
 
