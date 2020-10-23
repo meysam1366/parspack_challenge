@@ -9,7 +9,12 @@ class CreateRepository implements CreateInterface
 {
     public function createDirectory($request)
     {
-        $directory = mkdir('/opt/myprogram/'.$request->user()->name, 0777, true);
+        if (file_exists('/opt/myprogram/'.$request->user()->name)) {
+            rmdir('/opt/myprogram/'.$request->user()->name);
+            $directory = mkdir('/opt/myprogram/'.$request->user()->name, 0777, true);
+        } else {
+            $directory = mkdir('/opt/myprogram/'.$request->user()->name, 0777, true);
+        }
         return $directory;
     }
 
