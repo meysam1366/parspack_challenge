@@ -5,6 +5,7 @@ namespace App\Contract\Repositories;
 use App\Contract\Interfaces\LoginInterface;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Laravel\Sanctum\Sanctum;
 
 class LoginRepository implements LoginInterface
 {
@@ -12,7 +13,10 @@ class LoginRepository implements LoginInterface
     {
         $user = User::whereEmail($request['email'])->first();
         if($user && Hash::check($request['password'], $user->password)) {
-            return $user;
+            return [
+                'user' => $user,
+                'token' => $user->createToken($user->name)->plainTextToken
+            ];
         }
         return false;
     }
